@@ -53,7 +53,7 @@ public class Person {
 	private String email;
 
 	/** The medical record. */
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, orphanRemoval=true)
 	private MedicalRecord medicalRecord;
 
 

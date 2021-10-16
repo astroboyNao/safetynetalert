@@ -136,7 +136,6 @@ public interface PersonMapper {
 	 * @return the int
 	 */
 	default int fromBirthdateToint(LocalDate birthdate) {
-		System.out.println("ici ");
 		return Period.between(birthdate, java.time.LocalDate.now()).getYears();
 	}
 }

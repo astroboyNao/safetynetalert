@@ -158,9 +158,12 @@ public class MedicalRecordService {
 		log.debug("call medicalrecord service - delete");
 
 		Person person = findPerson(medicalRecordDTO);
-
+		
 		MedicalRecord medicalRecord = findMedicalRecord(person);
-
+		
+		person.setMedicalRecord(null);
+		personRepository.save(person);
+		
 		medicalRepository.delete(medicalRecord);
 	}
 }

@@ -99,6 +99,8 @@ public class PersonService {
 		}
 
 		Person person = personMapper.personDTOToPerson(personDTO);
+		person.setId(exist.getId());
+		
 		return personMapper.personToPersonDTO(this.personRepository.save(person));
 	}
 
