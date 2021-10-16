@@ -16,10 +16,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Firestation {
+	
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	/** The address. */
 	private String address;
+	
+	/** The station. */
 	private long station;
 
 }

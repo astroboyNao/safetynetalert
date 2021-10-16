@@ -28,40 +28,20 @@ import lombok.extern.slf4j.Slf4j;
  * Instantiates a new medical record service.
  *
  * @param personRepository the person repository
- * @param medicalrecordMapper the medicalrecord mapper
- */
-
-/**
- * Instantiates a new medical record service.
- *
- * @param personRepository the person repository
- * @param medicalRepository the medical repository
- * @param medicalrecordMapper the medicalrecord mapper
- */
-
-/**
- * Instantiates a new medical record service.
- *
- * @param personRepository the person repository
  * @param medicalRepository the medical repository
  * @param medicalrecordMapper the medicalrecord mapper
  */
 @AllArgsConstructor
-
-/** The Constant log. */
-
-/** The Constant log. */
-
 /** The Constant log. */
 @Slf4j
 public class MedicalRecordService {
-	
+
 	/** The person repository. */
 	private PersonRepository personRepository;
-	
+
 	/** The person repository. */
 	private MedicalRepository medicalRepository;
-	
+
 	/** The medicalrecord mapper. */
 	private MedicalrecordMapper medicalrecordMapper;
 
@@ -89,23 +69,24 @@ public class MedicalRecordService {
 		log.debug("call medicalrecord service - save");
 
 		Person person = findPerson(medicalRecordDTO);
-		
+
 		MedicalRecord exist = medicalRepository.findByPerson(person);
-		
+
 		if (exist != null) {
 			log.error("medicalRecord exist !!!");
 			throw new ExistException("Un dossier medical existe déjà !");
 		}
-		
-		MedicalRecord medicalRecord = medicalrecordMapper.medicalrecordDTOToMedicalRecord(medicalRecordDTO);
 
+		MedicalRecord medicalRecord = medicalrecordMapper.medicalrecordDTOToMedicalRecord(medicalRecordDTO);
+		medicalRecord.setPerson(person);
+		
 		medicalRecord = medicalRepository.save(medicalRecord);
-		
+
 		saveBirthdateForPerson(person, medicalRecord, medicalRecordDTO.getBirthdate());
-		
+
 		return medicalrecordMapper.medicalRecordToMedicalrecordDTO(medicalRecord);
 	}
-	
+
 	/**
 	 * Save.
 	 *
@@ -116,15 +97,15 @@ public class MedicalRecordService {
 		log.debug("call medicalrecord service - save");
 
 		Person person = findPerson(medicalRecordDTO);
-		
+
 		MedicalRecord medicalRecord = findMedicalRecord(person);
-		
+
 		medicalrecordMapper.update(medicalRecord, medicalRecordDTO);
 
 		medicalRecord = medicalRepository.save(medicalRecord);
 
 		saveBirthdateForPerson(person, medicalRecord, medicalRecordDTO.getBirthdate());
-		
+
 		return medicalrecordMapper.medicalRecordToMedicalrecordDTO(medicalRecord);
 	}
 
@@ -141,7 +122,7 @@ public class MedicalRecordService {
 	 */
 	private MedicalRecord findMedicalRecord(Person person) {
 		MedicalRecord medicalRecord = medicalRepository.findByPerson(person);
-		
+
 		if (medicalRecord == null) {
 			log.error("medicalRecord not found !!!");
 			throw new NotFoundException("dossier médical non trouvé !");
@@ -149,7 +130,7 @@ public class MedicalRecordService {
 		return medicalRecord;
 	}
 
-	
+
 	/**
 	 * Find person.
 	 *
@@ -164,7 +145,7 @@ public class MedicalRecordService {
 			log.error("person not exist for this medicalrecord !");
 			throw new NotFoundException("La personne n'existe pas, veuillez la créer dans le référentiel avant de créer ou mettre à jours son dossier médicale !");
 		}
-		
+
 		return person;
 	}
 
@@ -175,10 +156,13 @@ public class MedicalRecordService {
 	 */
 	public void delete(MedicalrecordDTO medicalRecordDTO) {
 		log.debug("call medicalrecord service - delete");
-		
+
 		Person person = findPerson(medicalRecordDTO);
 		
 		MedicalRecord medicalRecord = findMedicalRecord(person);
+		
+		person.setMedicalRecord(null);
+		personRepository.save(person);
 		
 		medicalRepository.delete(medicalRecord);
 	}

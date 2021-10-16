@@ -9,10 +9,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.safetynet.alerts.application.dto.*;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.alerts.application.dto.ChildDTO;
+import com.safetynet.alerts.application.dto.FirestationAffectationDTO;
+import com.safetynet.alerts.application.dto.MailDTO;
+import com.safetynet.alerts.application.dto.PersonDTO;
+import com.safetynet.alerts.application.dto.PersonInfoDTO;
 import com.safetynet.alerts.application.exception.ExistException;
 import com.safetynet.alerts.application.exception.NotFoundException;
 import com.safetynet.alerts.application.mapper.PersonMapper;
@@ -21,8 +24,6 @@ import com.safetynet.alerts.application.repository.entity.Person;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import static java.util.stream.Collectors.groupingBy;
 
 /**
  * The Class PersonService.
@@ -40,10 +41,10 @@ import static java.util.stream.Collectors.groupingBy;
 /** The Constant log. */
 @Slf4j
 public class PersonService {
-	
+
 	/** The person repository. */
 	private PersonRepository personRepository;
-	
+
 	/** The person mapper. */
 	private PersonMapper personMapper;
 
@@ -65,18 +66,18 @@ public class PersonService {
 	 *
 	 * @param personDTO the person DTO
 	 * @return the person DTO
-	 * @throws ExistException 
+	 * @throws ExistException
 	 */
 	public PersonDTO create(PersonDTO personDTO) {
 		log.debug("call person service - create");
 
 		Person exist = personRepository.findByFirstNameAndLastName(personDTO.getFirstName(), personDTO.getLastName());
-		
+
 		if(exist != null) {
 			log.error("person exist !!!");
 			throw new ExistException("la personne existe déjà dans notre référentiel");
 		}
-		
+
 		Person person = personMapper.personDTOToPerson(personDTO);
 		return personMapper.personToPersonDTO(this.personRepository.save(person));
 	}
@@ -89,15 +90,17 @@ public class PersonService {
 	 */
 	public PersonDTO save(PersonDTO personDTO) {
 		log.debug("call person service - save");
-		
+
 		Person exist = personRepository.findByFirstNameAndLastName(personDTO.getFirstName(), personDTO.getLastName());
-		
+
 		if(exist == null) {
 			log.error("person not found !!!");
 			throw new NotFoundException("la personne n'existe pas dans notre référentiel");
 		}
-		
+
 		Person person = personMapper.personDTOToPerson(personDTO);
+		person.setId(exist.getId());
+		
 		return personMapper.personToPersonDTO(this.personRepository.save(person));
 	}
 
@@ -116,7 +119,7 @@ public class PersonService {
 	public List<MailDTO> listEmail(String city) {
 		return this.personRepository.findByCity(city).stream().map((Person person) -> MailDTO.builder().email(person.getEmail()).build()).distinct().collect(Collectors.toList());
 	}
-	
+
 
 
 	public List<PersonInfoDTO> listPersonInfo(String firstName, String lastName) {
@@ -126,15 +129,15 @@ public class PersonService {
 				(Person person) ->
 				personMapper.personToPersonInfo(person)).collect(Collectors.toList());
 	}
-	
+
 	public FirestationAffectationDTO searchFirestationAffectationFromAddress(String address) {
-		
+
 		List<Person> persons =  personRepository.findByAddress(address);
 		long nbAdult = persons.stream().filter(this::isAdult).count();
 		long nbChild = persons.size() - nbAdult;
-		
+
 		return FirestationAffectationDTO.builder().numberAdult(nbAdult).numberChild(nbChild).persons(personMapper.personsToPersonDTOs(persons)).build();
-		
+
 	}
 
 	public List<PersonDTO> getByAddress(String address) {

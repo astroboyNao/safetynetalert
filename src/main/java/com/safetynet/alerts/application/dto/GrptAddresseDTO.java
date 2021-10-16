@@ -14,6 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GrptAddresseDTO {
+	
+	/** The address. */
 	private String address;
+	
+	/** The persons. */
 	private List<PersonInfoDTO> persons;
 }

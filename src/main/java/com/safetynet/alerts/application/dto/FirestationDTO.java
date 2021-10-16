@@ -14,6 +14,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class FirestationDTO {
+	
+	/** The address. */
 	private String address;
+	
+	/** The station. */
 	private long station;
 }

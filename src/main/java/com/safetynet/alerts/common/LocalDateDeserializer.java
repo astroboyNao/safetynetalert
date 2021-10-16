@@ -1,11 +1,11 @@
 package com.safetynet.alerts.common;
 
+import java.io.IOException;
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
-import java.io.IOException;
-import java.time.LocalDate;
 
 /**
  * The Class LocalDateDeserializer.

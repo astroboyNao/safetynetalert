@@ -39,12 +39,12 @@ import lombok.extern.slf4j.Slf4j;
 /** The Constant log. */
 @Slf4j
 public class FireStationService {
-	
+
 	/** The fire station repository. */
 	private FireStationRepository fireStationRepository;
-	
+
 	private PersonService personService;
-	
+
 	/** The firestation mapper. */
 	private FirestationMapper firestationMapper;
 
@@ -70,17 +70,17 @@ public class FireStationService {
 	 */
 	public FirestationDTO create(FirestationDTO firestationDTO) {
 		log.debug("call firestation service - save");
-		
+
 		Firestation exist = fireStationRepository.findByAddress(firestationDTO.getAddress());
-		
+
 		if(exist != null) {
 			log.error("firestation exist !!!", firestationDTO);
 			System.out.println(firestationDTO);
 			throw new ExistException("la station de pompier existe déjà !");
 		}
-		
+
 		Firestation firestation = firestationMapper.firestationDTOToFirestation(firestationDTO);
-		
+
 		return firestationMapper.firestationToFirestationDTO(fireStationRepository.save(firestation));
 	}
 
@@ -94,16 +94,16 @@ public class FireStationService {
 		log.debug("call firestation service - save");
 
 		Firestation firestation = findFirestation(firestationDTO);
-		
+
 		firestationMapper.update(firestation, firestationDTO);
-		
+
 		return firestationMapper.firestationToFirestationDTO(fireStationRepository.save(firestation));
 	}
 
 
 	private Firestation findFirestation(FirestationDTO firestationDTO) {
 		Firestation firestation = fireStationRepository.findByAddress(firestationDTO.getAddress());
-		
+
 		if(firestation == null) {
 			log.error("firestation not found !!!");
 			throw new ExistException("la station de pompier n'existe pas !");
@@ -118,18 +118,18 @@ public class FireStationService {
 	 */
 	public void delete(String address) {
 		log.debug("call firestation service - delete");
-		
+
 		FirestationDTO firestationDTO = new FirestationDTO();
 		firestationDTO.setAddress(address);
 		Firestation firestation = findFirestation(firestationDTO);
-		
+
 		this.fireStationRepository.delete(firestation);
 	}
 
 
 	public FirestationAffectationDTO getFirestationAffectation(long stationNumber) {
 		Firestation firestation = this.fireStationRepository.findByStation(stationNumber);
-		
+
 		return personService.searchFirestationAffectationFromAddress(firestation.getAddress());
 	}
 
@@ -140,7 +140,7 @@ public class FireStationService {
     }
 
 	public List<GrptStationDTO> getListPersonForAdress(String address) {
-		List<GrptStationDTO> grptStationDTOs = new ArrayList<GrptStationDTO>();
+		List<GrptStationDTO> grptStationDTOs = new ArrayList<>();
 		Firestation firestation = this.fireStationRepository.findByAddress(address);
 		Map<Long, List<PersonInfoDTO>> map = new HashMap<>();
 		map.put(firestation.getStation(), personService.getPersonInfoByAddress(address));
@@ -151,7 +151,7 @@ public class FireStationService {
 	}
 
 	public List<GrptAddresseDTO> getListPersonForStations(long[] stations) {
-		List<GrptAddresseDTO> grptAddressDTOs = new ArrayList<GrptAddresseDTO>();
+		List<GrptAddresseDTO> grptAddressDTOs = new ArrayList<>();
 		List<String> addresses = this.fireStationRepository.findByStationIn(stations).stream().map(Firestation::getAddress).collect(Collectors.toList());
 
 		 Map<String, List<PersonInfoDTO>> map = this.personService.getByAddressIn(addresses).stream().collect(

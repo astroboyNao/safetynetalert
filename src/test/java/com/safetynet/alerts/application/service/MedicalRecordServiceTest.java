@@ -64,7 +64,6 @@ public class MedicalRecordServiceTest {
 				.person(Person.builder().firstName("FIRSTNAME").lastName("LASTNAME").build())
 				.build();
 		when(personRepository.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(mock(Person.class));
-		//when(medicalRepository.findByPerson(any(Person.class))).thenReturn(mock(MedicalRecord.class));
 		when(medicalrecordMapper.medicalrecordDTOToMedicalRecord(any(MedicalrecordDTO.class))).thenReturn(mock(MedicalRecord.class));
 		when(medicalRepository.save(any(MedicalRecord.class))).thenReturn(medicalRecord);
 

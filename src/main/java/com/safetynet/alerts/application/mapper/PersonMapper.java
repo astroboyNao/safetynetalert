@@ -12,11 +12,9 @@ import com.safetynet.alerts.application.dto.MedicalrecordDTO;
 import com.safetynet.alerts.application.dto.PersonDTO;
 import com.safetynet.alerts.application.dto.PersonInfoDTO;
 import com.safetynet.alerts.application.repository.entity.Allergie;
-import com.safetynet.alerts.application.repository.entity.MedicalRecord;
 import com.safetynet.alerts.application.repository.entity.Medication;
 import com.safetynet.alerts.application.repository.entity.Person;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface PersonMapper.
  */
@@ -63,7 +61,13 @@ public interface PersonMapper {
 	 */
 	Person medicalrecordDTOsToPersonn(MedicalrecordDTO medicalRecordDTO);
 
-	
+
+	/**
+	 * Person to person info.
+	 *
+	 * @param person the person
+	 * @return the person info DTO
+	 */
 	@Mappings({
 		@Mapping(source = "medicalRecord.allergies", target = "allergies"),
 		@Mapping(source = "medicalRecord.medications", target = "medications"),
@@ -73,11 +77,17 @@ public interface PersonMapper {
 		@Mapping(source = "zip", target = "zip"),
 		@Mapping(source = "email", target = "email"),
 		@Mapping(source = "birthdate", target = "age")
-	})	
+	})
 	PersonInfoDTO personToPersonInfo(Person person);
 
+	/**
+	 * Persons to person infos.
+	 *
+	 * @param persons the persons
+	 * @return the list
+	 */
 	List<PersonInfoDTO> personsToPersonInfos(List<Person> persons);
-	
+
 	/**
 	 * From string to allergie.
 	 *
@@ -87,7 +97,7 @@ public interface PersonMapper {
 	default Allergie fromStringToAllergie(String allergie) {
 		return Allergie.builder().name(allergie).build();
 	}
-	
+
 
 	/**
 	 * From string to medication.
@@ -118,9 +128,14 @@ public interface PersonMapper {
 	default String fromAllergieToString(Allergie allergie) {
 		return allergie.getName();
 	}
-	
+
+	/**
+	 * From birthdate toint.
+	 *
+	 * @param birthdate the birthdate
+	 * @return the int
+	 */
 	default int fromBirthdateToint(LocalDate birthdate) {
-		System.out.println("ici ");
 		return Period.between(birthdate, java.time.LocalDate.now()).getYears();
 	}
 }

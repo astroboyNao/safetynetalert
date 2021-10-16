@@ -14,6 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GrptStationDTO {
+	
+	/** The station. */
 	private Long station;
+	
+	/** The persons. */
 	private List<PersonInfoDTO> persons;
 }
