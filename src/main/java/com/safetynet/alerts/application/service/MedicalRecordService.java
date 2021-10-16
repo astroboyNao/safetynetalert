@@ -28,30 +28,10 @@ import lombok.extern.slf4j.Slf4j;
  * Instantiates a new medical record service.
  *
  * @param personRepository the person repository
- * @param medicalrecordMapper the medicalrecord mapper
- */
-
-/**
- * Instantiates a new medical record service.
- *
- * @param personRepository the person repository
- * @param medicalRepository the medical repository
- * @param medicalrecordMapper the medicalrecord mapper
- */
-
-/**
- * Instantiates a new medical record service.
- *
- * @param personRepository the person repository
  * @param medicalRepository the medical repository
  * @param medicalrecordMapper the medicalrecord mapper
  */
 @AllArgsConstructor
-
-/** The Constant log. */
-
-/** The Constant log. */
-
 /** The Constant log. */
 @Slf4j
 public class MedicalRecordService {
@@ -98,7 +78,8 @@ public class MedicalRecordService {
 		}
 
 		MedicalRecord medicalRecord = medicalrecordMapper.medicalrecordDTOToMedicalRecord(medicalRecordDTO);
-
+		medicalRecord.setPerson(person);
+		
 		medicalRecord = medicalRepository.save(medicalRecord);
 
 		saveBirthdateForPerson(person, medicalRecord, medicalRecordDTO.getBirthdate());

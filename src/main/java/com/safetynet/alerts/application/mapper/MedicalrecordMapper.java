@@ -32,6 +32,11 @@ public interface MedicalrecordMapper {
 	 * @param medicalRecord the medical record
 	 * @return the medicalrecord DTO
 	 */
+	@Mappings({
+		@Mapping(source = "person.firstName", target = "firstName"),
+		@Mapping(source = "person.lastName", target = "lastName"),
+		@Mapping(source = "person.birthdate", target = "birthdate")
+	})
 	MedicalrecordDTO medicalRecordToMedicalrecordDTO(MedicalRecord medicalRecord);
 
 	/**
@@ -43,7 +48,7 @@ public interface MedicalrecordMapper {
 	@Mappings({
 		@Mapping(source = "allergies", target = "allergies"),
 		@Mapping(source = "medications", target = "medications"),
-		@Mapping(target = "person", ignore = true)
+		@Mapping(target = "person.firstName", ignore = true)
 	})
 	MedicalRecord medicalrecordDTOToMedicalRecord(MedicalrecordDTO medicalRecordDTO);
 
