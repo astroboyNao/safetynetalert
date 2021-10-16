@@ -13,7 +13,7 @@ import com.safetynet.alerts.application.repository.entity.Firestation;
  */
 @Mapper
 public interface FirestationMapper {
-	
+
 	/**
 	 * Firestation to firestation DTO.
 	 *
@@ -45,7 +45,7 @@ public interface FirestationMapper {
 	 * @return the list
 	 */
 	List<Firestation> firestationDTOsToFirestations(List<FirestationDTO> firestationDTOs);
-	
+
 	/**
 	 * Update.
 	 *

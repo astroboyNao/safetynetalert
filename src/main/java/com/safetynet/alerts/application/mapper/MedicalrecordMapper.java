@@ -1,7 +1,5 @@
 package com.safetynet.alerts.application.mapper;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 import org.mapstruct.Mapper;
@@ -10,7 +8,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
 import com.safetynet.alerts.application.dto.MedicalrecordDTO;
-import com.safetynet.alerts.application.dto.PersonInfoDTO;
 import com.safetynet.alerts.application.repository.entity.Allergie;
 import com.safetynet.alerts.application.repository.entity.MedicalRecord;
 import com.safetynet.alerts.application.repository.entity.Medication;
@@ -47,7 +44,7 @@ public interface MedicalrecordMapper {
 		@Mapping(source = "allergies", target = "allergies"),
 		@Mapping(source = "medications", target = "medications"),
 		@Mapping(target = "person", ignore = true)
-	})	
+	})
 	MedicalRecord medicalrecordDTOToMedicalRecord(MedicalrecordDTO medicalRecordDTO);
 
 	/**

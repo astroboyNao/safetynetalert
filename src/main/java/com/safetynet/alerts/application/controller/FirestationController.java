@@ -2,10 +2,7 @@ package com.safetynet.alerts.application.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
-import com.safetynet.alerts.application.dto.PersonDTO;
-import com.safetynet.alerts.application.dto.PersonInfoDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +27,12 @@ import lombok.extern.slf4j.Slf4j;
  * The Class FirestationController.
  */
 @RestController
+
+/**
+ * Instantiates a new firestation controller.
+ *
+ * @param fireStationService the fire station service
+ */
 
 /**
  * Instantiates a new firestation controller.
@@ -66,13 +69,13 @@ public class FirestationController {
 	public ResponseEntity<Object> create(@RequestBody FirestationDTO firestationDTO) {
 		log.debug("call firestation controller - create");
 		FirestationDTO firestationDTOCreated = this.fireStationService.create(firestationDTO);
-		
+
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{address}")
 				.buildAndExpand(firestationDTOCreated.getAddress()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}
-	
+
 	/**
 	 * Save.
 	 *
@@ -96,29 +99,53 @@ public class FirestationController {
 		this.fireStationService.delete(address);
 	}
 
+	/**
+	 * Gets the phone alert.
+	 *
+	 * @param stationNumber the station number
+	 * @return the phone alert
+	 */
 	@GetMapping("/phoneAlert")
 	public List<String> getPhoneAlert(@RequestParam(value="stationNumber") int stationNumber) {
 		log.debug("call firestation controller - getFirestationAffectation");
 		return this.fireStationService.getListPhoneForAStation(stationNumber);
 	}
-	
 
+
+	/**
+	 * Gets the firestation affectation.
+	 *
+	 * @param stationNumber the station number
+	 * @return the firestation affectation
+	 */
 	@GetMapping("/firestation")
 	public FirestationAffectationDTO getFirestationAffectation(@RequestParam(value="stationNumber") int stationNumber) {
 		log.debug("call firestation controller - getFirestationAffectation");
 		return this.fireStationService.getFirestationAffectation(stationNumber);
 	}
 
+	/**
+	 * Gets the list person for address.
+	 *
+	 * @param address the address
+	 * @return the list person for address
+	 */
 	@GetMapping("/fire")
 	public List<GrptStationDTO> getListPersonForAddress(@RequestParam(value="address") String address) {
 		log.debug("call firestation controller - getFirestationAffectation");
 		return this.fireStationService.getListPersonForAdress(address);
 	}
 
+	/**
+	 * Gets the list person for stations.
+	 *
+	 * @param stations the stations
+	 * @return the list person for stations
+	 */
 	@GetMapping("/flood")
 	public List<GrptAddresseDTO> getListPersonForStations(@RequestParam(value="stations[]") long[] stations ){
 		log.debug("call firestation controller - getFirestationAffectation");
 		return this.fireStationService.getListPersonForStations(stations);
 	}
-	
+
 }

@@ -17,13 +17,27 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class PersonDTO {
+	
+	/** The first name. */
 	@JsonInclude(Include.NON_EMPTY)
 	private String firstName;
+	
+	/** The last name. */
 	@JsonInclude(Include.NON_EMPTY)
 	private String lastName;
+	
+	/** The address. */
 	private String address;
+	
+	/** The city. */
 	private String city;
+	
+	/** The zip. */
 	private String zip;
+	
+	/** The phone. */
 	private String phone;
+	
+	/** The email. */
 	private String email;
 }

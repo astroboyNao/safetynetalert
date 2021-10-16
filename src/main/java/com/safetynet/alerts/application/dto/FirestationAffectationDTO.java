@@ -16,7 +16,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class FirestationAffectationDTO {
+	
+	/** The persons. */
 	private List<PersonDTO> persons;
+	
+	/** The number adult. */
 	private long numberAdult;
+	
+	/** The number child. */
 	private long numberChild;
 }

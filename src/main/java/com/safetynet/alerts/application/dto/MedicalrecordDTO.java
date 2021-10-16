@@ -4,9 +4,6 @@ package com.safetynet.alerts.application.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -27,13 +24,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class MedicalrecordDTO {
+	
+	/** The first name. */
 	private String firstName;
+	
+	/** The last name. */
 	private String lastName;
+	
+	/** The birthdate. */
 	@JsonFormat(pattern="MM/dd/yyyy")
 	@JsonSerialize(using = LocalDateSerializer.class)
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate birthdate;
+	
+	/** The medications. */
 	private List<String> medications;
+	
+	/** The allergies. */
 	private List<String> allergies;
-			
+
 }

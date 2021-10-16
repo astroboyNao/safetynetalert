@@ -16,8 +16,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Allergie {
+	
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	/** The name. */
 	private String name;
 }

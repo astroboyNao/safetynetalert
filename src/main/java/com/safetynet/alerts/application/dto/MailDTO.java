@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -13,5 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MailDTO {
+	
+	/** The email. */
 	private String email;
 }

@@ -1,8 +1,5 @@
 package com.safetynet.alerts.application.repository.entity;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +16,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Medication {
+	
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	/** The name. */
 	private String name;
 }

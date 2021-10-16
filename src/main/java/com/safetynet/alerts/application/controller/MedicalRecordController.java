@@ -58,7 +58,7 @@ public class MedicalRecordController {
 		return this.medicalRecordService.create(medicalRecordDTO);
 	}
 
-	
+
 	/**
 	 * Save.
 	 *

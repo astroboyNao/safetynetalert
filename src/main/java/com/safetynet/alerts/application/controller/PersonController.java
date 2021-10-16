@@ -1,10 +1,7 @@
 package com.safetynet.alerts.application.controller;
 
 import java.util.List;
-import java.util.Map;
 
-import com.safetynet.alerts.application.dto.ChildDTO;
-import com.safetynet.alerts.application.repository.entity.Person;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.application.dto.ChildDTO;
 import com.safetynet.alerts.application.dto.MailDTO;
 import com.safetynet.alerts.application.dto.PersonDTO;
 import com.safetynet.alerts.application.dto.PersonInfoDTO;
@@ -21,7 +19,6 @@ import com.safetynet.alerts.application.service.PersonService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PersonnController.
  */
@@ -32,15 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @param personService the person service
  */
-
-/**
- * Instantiates a new person controller.
- *
- * @param personService the person service
- */
 @AllArgsConstructor
-
-/** The Constant log. */
 
 /** The Constant log. */
 @Slf4j
@@ -83,7 +72,7 @@ public class PersonController {
 		log.debug("call person controller - save");
 		return personService.save(personDTO);
 	}
-	
+
 	/**
 	 * Delete.
 	 *
@@ -99,18 +88,37 @@ public class PersonController {
 		this.personService.delete(personDTO);
 	}
 
+	/**
+	 * List child.
+	 *
+	 * @param address the address
+	 * @return the list
+	 */
 	@GetMapping("/childAlert")
 	public List<ChildDTO> listChild(@RequestParam(value="address") String address) {
 		log.debug("call safetyNet controller - listChild");
 		return this.personService.listChild(address);
 	}
 
+	/**
+	 * List person info.
+	 *
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @return the list
+	 */
 	@GetMapping("/personInfo")
 	public List<PersonInfoDTO> listPersonInfo(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName) {
 		log.debug("call safetyNet controller - personInfo");
 		return this.personService.listPersonInfo(firstName, lastName);
 	}
-	
+
+	/**
+	 * List email.
+	 *
+	 * @param city the city
+	 * @return the list
+	 */
 	@GetMapping("/communityEmail")
 	public List<MailDTO> listEmail(@RequestParam(value="city") String city) {
 		log.debug("call safetyNet controller - communityEmail");
